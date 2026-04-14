@@ -6,12 +6,13 @@ export default function PKRSavingsCalculator() {
   const [kids, setKids] = React.useState(0);
   const [kidAges, setKidAges] = React.useState([]);
   const [rent, setRent] = React.useState(0);
+  const [kitchenGrocery, setKitchenGrocery] = React.useState(0);
+  const [utilitiesBills, setUtilitiesBills] = React.useState(0);
+  const [familyDineOut, setFamilyDineOut] = React.useState(0);
+  const [relativeVisits, setRelativeVisits] = React.useState(0);
+  const [medicalCheckup, setMedicalCheckup] = React.useState(0);
 
   const CAR_FUEL = 30000;
-  const KITCHEN_UTILITIES = 60000;
-  const RECREATION = 5000;
-  const HEALTH = 3000;
-  const MISC = 5000;
 
   const calculateAnnualTax = (annualIncome) => {
     if (annualIncome <= 600000) return 0;
@@ -55,11 +56,12 @@ export default function PKRSavingsCalculator() {
     monthlyTax +
     carDeduction +
     kidsDeduction +
-    KITCHEN_UTILITIES +
     Number(rent || 0) +
-    RECREATION +
-    HEALTH +
-    MISC;
+    Number(kitchenGrocery || 0) +
+    Number(utilitiesBills || 0) +
+    Number(familyDineOut || 0) +
+    Number(relativeVisits || 0) +
+    Number(medicalCheckup || 0);
 
   const savings = Number(grossSalary || 0) - totalDeductions;
   const effectiveTaxRate = annualIncome > 0 ? (annualTax / annualIncome) * 100 : 0;
@@ -224,8 +226,8 @@ export default function PKRSavingsCalculator() {
         <div style={heroStyle}>
           <h1 style={titleStyle}>Average Monthly Savings for Pakistani Salary Earners</h1>
           <p style={subtitleStyle}>
-            Calculate your estimated monthly savings after tax, rent, fuel, kids, utilities,
-            health, recreation, and miscellaneous family expenses.
+            Calculate your estimated monthly savings after tax, rent, fuel, kids,
+            kitchen grocery, utilities, family dine out, relative visits, and routine medical costs.
           </p>
         </div>
 
@@ -302,6 +304,66 @@ export default function PKRSavingsCalculator() {
                 placeholder="e.g. 45000"
               />
             </div>
+
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Kitchen grocery (PKR)</label>
+              <input
+                type="number"
+                min="0"
+                value={kitchenGrocery}
+                onChange={(e) => setKitchenGrocery(Number(e.target.value))}
+                style={inputStyle}
+                placeholder="e.g. 30000"
+              />
+            </div>
+
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Utilities bills - gas, electricity (PKR)</label>
+              <input
+                type="number"
+                min="0"
+                value={utilitiesBills}
+                onChange={(e) => setUtilitiesBills(Number(e.target.value))}
+                style={inputStyle}
+                placeholder="e.g. 15000"
+              />
+            </div>
+
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Family dine out (PKR)</label>
+              <input
+                type="number"
+                min="0"
+                value={familyDineOut}
+                onChange={(e) => setFamilyDineOut(Number(e.target.value))}
+                style={inputStyle}
+                placeholder="e.g. 5000"
+              />
+            </div>
+
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Relative visits / events (PKR)</label>
+              <input
+                type="number"
+                min="0"
+                value={relativeVisits}
+                onChange={(e) => setRelativeVisits(Number(e.target.value))}
+                style={inputStyle}
+                placeholder="e.g. 4000"
+              />
+            </div>
+
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Routine medical check up (PKR)</label>
+              <input
+                type="number"
+                min="0"
+                value={medicalCheckup}
+                onChange={(e) => setMedicalCheckup(Number(e.target.value))}
+                style={inputStyle}
+                placeholder="e.g. 3000"
+              />
+            </div>
           </div>
 
           <div style={cardStyle}>
@@ -313,11 +375,12 @@ export default function PKRSavingsCalculator() {
               <div style={breakdownRowStyle}><span>Monthly tax (slab based)</span><strong>-Rs {formatPKR(monthlyTax)}</strong></div>
               <div style={breakdownRowStyle}><span>Fuel charges</span><strong>-Rs {formatPKR(carDeduction)}</strong></div>
               <div style={breakdownRowStyle}><span>Kids cost</span><strong>-Rs {formatPKR(kidsDeduction)}</strong></div>
-              <div style={breakdownRowStyle}><span>Kitchen + utilities</span><strong>-Rs {formatPKR(KITCHEN_UTILITIES)}</strong></div>
               <div style={breakdownRowStyle}><span>Rent</span><strong>-Rs {formatPKR(rent)}</strong></div>
-              <div style={breakdownRowStyle}><span>Recreational / family</span><strong>-Rs {formatPKR(RECREATION)}</strong></div>
-              <div style={breakdownRowStyle}><span>Health deduction</span><strong>-Rs {formatPKR(HEALTH)}</strong></div>
-              <div style={breakdownRowStyle}><span>Miscellaneous</span><strong>-Rs {formatPKR(MISC)}</strong></div>
+              <div style={breakdownRowStyle}><span>Kitchen grocery</span><strong>-Rs {formatPKR(kitchenGrocery)}</strong></div>
+              <div style={breakdownRowStyle}><span>Utilities bills</span><strong>-Rs {formatPKR(utilitiesBills)}</strong></div>
+              <div style={breakdownRowStyle}><span>Family dine out</span><strong>-Rs {formatPKR(familyDineOut)}</strong></div>
+              <div style={breakdownRowStyle}><span>Relative visits / events</span><strong>-Rs {formatPKR(relativeVisits)}</strong></div>
+              <div style={breakdownRowStyle}><span>Routine medical check up</span><strong>-Rs {formatPKR(medicalCheckup)}</strong></div>
             </div>
 
             {kids > 0 && (
